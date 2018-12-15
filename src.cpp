@@ -2,12 +2,40 @@
 #include <cstdio>
 #include <iostream>
 #include <string.h>
+#include <fstream>
 #include <cstdlib>
+#include <ctime>
+
 using namespace std;
+
+//file handling for menu
+void foodRoullette(){
+	string line;
+	int random = 0;
+	int numOfLines = 0;
+	ifstream File("menu.txt");
+	
+	    srand(time(0));
+	    random = rand() % 10;
+	
+	while(getline(File, line))
+	{
+	    ++numOfLines;
+	
+	    if(numOfLines == random)
+	    {
+	        cout << line;
+	    }
+	
+	}
+	
+}
+
 static int p = 0;
 string x,y;
 class a{
   char busn[5], driver[10], arrival[5], depart[5], from[10], to[10], seat[8][4][10];
+  int price;
 public:
   void install();
   void allotment();
@@ -20,6 +48,8 @@ public:
   void prog();
   void adminopt();
   void customeropt();
+  //edit
+  void payment();
 }
 bus[10];
 void vline(char ch){
@@ -27,6 +57,12 @@ void vline(char ch){
   cout<<ch;
 }
 
+//Generating random payment
+//edit
+void a::payment(){
+	price = rand() % 100;
+	cout<<"\nThe price of the ticket is: "<<price<<"$ / per person";
+}
 
 void a::install(){
   cout<<"Enter bus no: ";
@@ -98,11 +134,21 @@ void a::show(){
   }
   while(n<=p){
   vline('*');
-  cout<<"Bus no: \t"<<bus[n].busn
+  cout<<"\nBus no: \t"<<bus[n].busn
   <<"\nDriver: \t"<<bus[n].driver<<"\t\tArrival time: \t"
   <<bus[n].arrival<<"\tDeparture time:"<<bus[n].depart
   <<"\nFrom: \t\t"<<bus[n].from<<"\t\tTo: \t\t"<<
   bus[n].to<<"\n";
+  vline('*');
+  //edit
+  payment();
+  cout<<"\n";
+  //edit 
+  vline('*');
+  cout<<"\n";
+  cout<<"Your free meal is : ";
+  foodRoullette();
+  cout<<"\n";
   vline('*');
   bus[0].position(n);
   int a=1;
@@ -257,7 +303,7 @@ void a::adminopt(){
 void a::customeropt(){
     int x;
         cout<<"\n\n\n\n\n"
-        <<"1.Reservation\n\t\t\t"
+        <<"\t\t\t1.Reservation\n\t\t\t"
         <<"2.Show\n\t\t\t"
         <<"3.Buses Available. \n\t\t\t"
         <<"4.logout";
